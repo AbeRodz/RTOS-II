@@ -66,7 +66,6 @@ extern SemaphoreHandle_t hsem_button;
 
 /********************** internal functions definition ************************/
 
-
 static struct
 {
     uint32_t counter;
@@ -117,27 +116,33 @@ void task_button(void* argument)
     button_type_t button_type;
     button_type = button_process_state_(button_state);
     message_t elem_to_send;
-    switch (button_type) {
+
+    switch (button_type) 
+    {
       case BUTTON_TYPE_NONE:
         break;
+
       case BUTTON_TYPE_PULSE:
         LOGGER_INFO("button pulse");
         elem_to_send.button = button_type;
     	xQueueSend(ui_event_queue,&elem_to_send	,	pdMS_TO_TICKS(10) );
         //xSemaphoreGive(hsem_button);
         break;
+
       case BUTTON_TYPE_SHORT:
         LOGGER_INFO("button short");
         elem_to_send.button = button_type;
     	xQueueSend(ui_event_queue,&elem_to_send	,	pdMS_TO_TICKS(10) );
         //xSemaphoreGive(hsem_button);
         break;
+
       case BUTTON_TYPE_LONG:
         LOGGER_INFO("button long");
         elem_to_send.button = button_type;
     	xQueueSend(ui_event_queue,&elem_to_send	,	pdMS_TO_TICKS(10) );
         //xSemaphoreGive(hsem_button);
         break;
+        
       default:
         LOGGER_INFO("button error");
         break;
