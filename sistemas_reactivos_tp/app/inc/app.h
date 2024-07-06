@@ -42,21 +42,48 @@ extern "C" {
 
 /********************** inclusions *******************************************/
 
+#include "main.h"
+#include "cmsis_os.h"
+#include "logger.h"
+#include "dwt.h"
+#include "board.h"
+#include "task_button.h"
+
+/* Exclude traditional tasks */
+// #include "task_led.h"
+// #include "task_ui.h"
+
+/* Include active objects */
+#include "active_object_led.h"
+#include "active_object_ui.h"
+
 /********************** macros ***********************************************/
 
 /********************** typedef **********************************************/
 
 /********************** external data declaration ****************************/
-extern QueueHandle_t ui_event_queue;
 
+/* UI data */
+extern QueueHandle_t ui_event_queue;
+extern UiTask_t ui_task;
+
+/* LED data */
 extern QueueHandle_t led_r_event_queue;
 extern QueueHandle_t led_g_event_queue;
 extern QueueHandle_t led_b_event_queue;
+extern LedTask_t red_task;
+extern LedTask_t green_task;
+extern LedTask_t blue_task;
 
 /********************** external functions declaration ***********************/
+
+/**
+ * @brief This function initializes the application
+ */
 void app_init(void);
 
 /********************** End of CPP guard *************************************/
+
 #ifdef __cplusplus
 }
 #endif

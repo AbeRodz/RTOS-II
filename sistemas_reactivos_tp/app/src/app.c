@@ -34,18 +34,9 @@
 
 /********************** inclusions *******************************************/
 
-#include "main.h"
-#include "cmsis_os.h"
-#include "logger.h"
-#include "dwt.h"
-#include "board.h"
 #include "app.h"
-#include "task_button.h"
-#include "task_led.h"
-#include "task_ui.h"
 
 /********************** macros and definitions *******************************/
-
 
 /********************** internal data declaration ****************************/
 
@@ -53,67 +44,29 @@
 
 /********************** internal data definition *****************************/
 
-/********************** external data declaration *****************************/
-
 SemaphoreHandle_t hsem_button;
 SemaphoreHandle_t hsem_led;
 
-QueueHandle_t ui_event_queue;
-
-QueueHandle_t led_r_event_queue;
-QueueHandle_t led_g_event_queue;
-QueueHandle_t led_b_event_queue;
+/********************** external data declaration *****************************/
 
 /********************** external functions definition ************************/
+
 void app_init(void)
 {
+	/* Create LEDs AO */
+    LedTask_t red_task, green_task, blue_task;
+    led_tasks_create(&red_task, &green_task, &blue_task);
 
-	ui_event_queue = xQueueCreate(1, sizeof(message_t));
-	configASSERT(NULL != ui_event_queue);
+    /* Create UI AO */
+    UiTask_t ui_task;
+    ui_task_create(&ui_task, &red_task, &green_task, &blue_task);
+    
+    /* Create button task */
+    xTaskCreate(task_button, "Button Task", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);
 
-	led_r_event_queue = xQueueCreate(1, sizeof(message_t));
-	configASSERT(NULL != led_r_event_queue);
-
-	led_g_event_queue = xQueueCreate(1, sizeof(message_t));
-	configASSERT(NULL != led_g_event_queue);
-
-	led_b_event_queue = xQueueCreate(1, sizeof(message_t));
-	configASSERT(NULL != led_b_event_queue);
-
-	hsem_button = xSemaphoreCreateBinary();
-	while(NULL == hsem_button)
-	{
-
-	}
-
-	hsem_led = xSemaphoreCreateBinary();
-	while(NULL == hsem_led)
-	{
-
-	}
-
-	BaseType_t status;
-
-	status = xTaskCreate(task_button, "task_button", 128, NULL, tskIDLE_PRIORITY, NULL);
-	while (pdPASS != status)
-	{
-		// error
-	}
-
-	status = xTaskCreate(task_ui, "task_ui", 128, NULL, tskIDLE_PRIORITY, NULL);
-	while (pdPASS != status)
-	{
-		// error
-	}
-
-	status = xTaskCreate(task_led, "task_led", 128, NULL, tskIDLE_PRIORITY, NULL);
-	while (pdPASS != status)
-	{
-		// error
-	}
-
+	/* Start scheduler */
+    vTaskStartScheduler();
 	LOGGER_INFO("app init");
-
 	cycle_counter_init();
 }
 
