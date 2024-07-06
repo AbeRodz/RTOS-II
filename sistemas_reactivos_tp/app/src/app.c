@@ -34,17 +34,7 @@
 
 /********************** inclusions *******************************************/
 
-#include "main.h"
-#include "cmsis_os.h"
-#include "logger.h"
-#include "dwt.h"
-#include "board.h"
 #include "app.h"
-#include "task_button.h"
-#include "task_led.h"
-#include "task_ui.h"
-#include "active_object_led.h"
-#include "active_object_ui.h"
 
 /********************** macros and definitions *******************************/
 

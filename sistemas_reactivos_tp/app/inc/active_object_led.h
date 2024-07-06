@@ -62,13 +62,26 @@ LedTask_t red_task;
 LedTask_t green_task;
 LedTask_t blue_task;
 
-/* This functions creates the LED tasks */
+/**
+ * @brief This function creates the LED tasks
+ * @param red_task This is a pointer to the red LED task
+ * @param green_task This is a pointer to the green LED task
+ * @param blue_task This is a pointer to the blue LED task
+ */
 void led_tasks_create(LedTask_t *red_task, LedTask_t *green_task, LedTask_t *blue_task);
 
-/* This functions initializes the LED task */
+/**
+ * @brief This function initializes the LED task
+ * @param task This is a pointer to the LED task
+ * @param queue This is the queue to receive commands
+ * @param set_state This is a function pointer to set the LED state
+ */
 void led_task_init(LedTask_t *task, QueueHandle_t queue, void (*set_state)(led_cmd_t cmd));
 
-/* This functions runs the LED task */
+/**
+ * @brief This function runs the LED task
+ * @param task This is a pointer to the LED task
+ */
 void led_task_run(LedTask_t *task);
 
 #endif // ACTIVE_OBJECT_LED_H

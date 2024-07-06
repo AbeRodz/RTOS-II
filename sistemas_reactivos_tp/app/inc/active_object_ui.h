@@ -63,13 +63,26 @@ QueueHandle_t ui_event_queue;
 /* UI task */
 UiTask_t ui_task;
 
-/* This function creates the UI task */
+/**
+ * @brief This function creates the UI task
+ * @param ui_task This is a pointer to the UI task
+ */
 void ui_task_create(UiTask_t *ui_task);
 
-/* This functions initializes the UI task according to each LED task and UI task */
+/**
+ * @brief This function initializes the UI task
+ * @param ui_task This is a pointer to the UI task
+ * @param button_state_queue This is the queue to receive button states
+ * @param red_task This is a pointer to the red LED task
+ * @param green_task This is a pointer to the green LED task
+ * @param blue_task This is a pointer to the blue LED task
+ */
 void ui_task_init(UiTask_t *ui_task, QueueHandle_t button_state_queue, LedTask_t *red_task, LedTask_t *green_task, LedTask_t *blue_task);
 
-/* This function runs the UI task */
+/**
+ * @brief This function runs the UI task
+ * @param ui_task This is a pointer to the UI task
+ */
 void ui_task_run(UiTask_t *ui_task);
 
 #endif // ACTIVE_OBJECT_UI_H

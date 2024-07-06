@@ -42,6 +42,21 @@ extern "C" {
 
 /********************** inclusions *******************************************/
 
+#include "main.h"
+#include "cmsis_os.h"
+#include "logger.h"
+#include "dwt.h"
+#include "board.h"
+#include "task_button.h"
+
+/* Exclude traditional tasks */
+// #include "task_led.h"
+// #include "task_ui.h"
+
+/* Include active objects */
+#include "active_object_led.h"
+#include "active_object_ui.h"
+
 /********************** macros ***********************************************/
 
 /********************** typedef **********************************************/
@@ -62,6 +77,9 @@ extern LedTask_t blue_task;
 
 /********************** external functions declaration ***********************/
 
+/**
+ * @brief This function initializes the application
+ */
 void app_init(void);
 
 /********************** End of CPP guard *************************************/
