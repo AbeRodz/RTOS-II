@@ -45,6 +45,7 @@
 #include "dwt.h"
 #include "task_led.h"
 #include "app.h"
+#include "active_object_ui.h"
 /********************** macros and definitions *******************************/
 
 #define TASK_PERIOD_MS_           (50)

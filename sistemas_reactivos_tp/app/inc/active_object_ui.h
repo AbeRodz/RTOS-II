@@ -32,15 +32,15 @@
  * @author : Sebastian Bedin <sebabedin@gmail.com>
  */
 
-#ifndef ACTIVE_OBJECT_UI_H
-#define ACTIVE_OBJECT_UI_H
+#ifndef INC_ACTIVE_OBJECT_UI_H
+#define INC_ACTIVE_OBJECT_UI_H
 
 #include "main.h"
 #include "cmsis_os.h"
 #include "active_object_led.h"
 
 /* This enum defines the possible states of the button */
-typedef enum 
+typedef enum
 {
     BUTTON_STATE_NONE,
     BUTTON_STATE_PULSE,
@@ -49,7 +49,7 @@ typedef enum
 } button_state_t;
 
 /* This struct defines the UI task */
-typedef struct 
+typedef struct
 {
     QueueHandle_t button_state_queue; // Queue to receive button states
     LedTask_t *red_task; // Red LED task
@@ -58,10 +58,10 @@ typedef struct
 } UiTask_t;
 
 /* UI events queue */
-QueueHandle_t ui_event_queue; 
+extern QueueHandle_t ui_event_queue;
 
 /* UI task */
-UiTask_t ui_task;
+extern UiTask_t ui_task;
 
 /**
  * @brief This function creates the UI task
@@ -83,6 +83,6 @@ void ui_task_init(UiTask_t *ui_task, QueueHandle_t button_state_queue, LedTask_t
  * @brief This function runs the UI task
  * @param ui_task This is a pointer to the UI task
  */
-void ui_task_run(UiTask_t *ui_task);
+void ui_task_run(void *argument);
 
 #endif // ACTIVE_OBJECT_UI_H

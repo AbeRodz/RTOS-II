@@ -43,8 +43,12 @@
 #include "logger.h"
 #include "dwt.h"
 #include "app.h"
-#include "task_led.h"
 
+QueueHandle_t ui_event_queue;
+/* LED tasks */
+//LedTask_t red_task;
+//LedTask_t blue_task;
+//LedTask_t green_task;
 /* ============================================================================================ */
 
 void ui_task_init(UiTask_t *ui_task, QueueHandle_t button_state_queue, LedTask_t *red_task, LedTask_t *green_task, LedTask_t *blue_task) 
@@ -57,8 +61,9 @@ void ui_task_init(UiTask_t *ui_task, QueueHandle_t button_state_queue, LedTask_t
 
 /* ============================================================================================ */
 
-void ui_task_run(UiTask_t *ui_task) 
+void ui_task_run(void *argument)
 {
+	UiTask_t* ui_task = (UiTask_t*)argument;
     button_state_t button_state;
     while (true) 
     {
@@ -99,6 +104,7 @@ void ui_task_create(UiTask_t *ui_task)
 
     /* Create the UI task */
     BaseType_t status;
+
     status = xTaskCreate(ui_task_run, "UI Task", configMINIMAL_STACK_SIZE, ui_task, tskIDLE_PRIORITY, NULL);
     configASSERT(pdPASS == status);
 }

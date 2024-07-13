@@ -42,8 +42,11 @@
 #include "logger.h"
 #include "dwt.h"
 #include "app.h"
-#include "task_led.h"
 #include "active_object_led.h"
+
+QueueHandle_t led_r_event_queue;
+QueueHandle_t led_g_event_queue;
+QueueHandle_t led_b_event_queue;
 
 /* ============================================================================================ */
 
