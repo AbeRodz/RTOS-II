@@ -29,7 +29,7 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @author : Sebastian Bedin <sebabedin@gmail.com>
+ * @authors : Abraham Rodriguez, Estanislao Crivos, Jose Roberto Castro
  */
 
 /********************** inclusions *******************************************/
@@ -46,7 +46,8 @@
 
 SemaphoreHandle_t hsem_button;
 SemaphoreHandle_t hsem_led;
-
+LedTask_t red_task, green_task, blue_task;
+UiTask_t ui_task;
 /********************** external data declaration *****************************/
 
 /********************** external functions definition ************************/
@@ -54,18 +55,19 @@ SemaphoreHandle_t hsem_led;
 void app_init(void)
 {
 	/* Create LEDs AO */
-    LedTask_t red_task, green_task, blue_task;
     led_tasks_create(&red_task, &green_task, &blue_task);
 
     /* Create UI AO */
-    UiTask_t ui_task;
-    ui_task_create(&ui_task, &red_task, &green_task, &blue_task);
+    ui_task.red_task = &red_task;
+    ui_task.blue_task= &blue_task;
+    ui_task.green_task= &green_task;
+    ui_task_create(&ui_task);
     
     /* Create button task */
     xTaskCreate(task_button, "Button Task", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL);
 
 	/* Start scheduler */
-    vTaskStartScheduler();
+    //vTaskStartScheduler();
 	LOGGER_INFO("app init");
 	cycle_counter_init();
 }

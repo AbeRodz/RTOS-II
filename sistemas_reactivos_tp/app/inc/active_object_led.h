@@ -32,35 +32,35 @@
  * @author : Sebastian Bedin <sebabedin@gmail.com>
  */
 
-#ifndef ACTIVE_OBJECT_LED_H
-#define ACTIVE_OBJECT_LED_H
+#ifndef INC_ACTIVE_OBJECT_LED_H
+#define INC_ACTIVE_OBJECT_LED_H
 
 #include "main.h"
 #include "cmsis_os.h"
 
 /* This enum defines the possible commands for the LED */
-typedef enum 
+typedef enum
 {
     LED_CMD_OFF,
     LED_CMD_ON
 } led_cmd_t;
 
 /* This struct defines the LED task */
-typedef struct 
+typedef struct
 {
     QueueHandle_t queue; // Queue to receive commands
     void (*set_state)(led_cmd_t cmd); // Function pointer to set the LED state
 } LedTask_t;
 
 /* LED events queues */
-QueueHandle_t led_r_event_queue;
-QueueHandle_t led_g_event_queue;
-QueueHandle_t led_b_event_queue;
+extern QueueHandle_t led_r_event_queue;
+extern QueueHandle_t led_g_event_queue;
+extern QueueHandle_t led_b_event_queue;
 
 /* LED tasks */
-LedTask_t red_task;
-LedTask_t green_task;
-LedTask_t blue_task;
+extern LedTask_t red_task;
+extern LedTask_t green_task;
+extern LedTask_t blue_task;
 
 /**
  * @brief This function creates the LED tasks
