@@ -34,35 +34,7 @@
 
 /* ============================================================================================ */
 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
-
-#include "main.h"
-#include "cmsis_os.h"
-#include "board.h"
-#include "logger.h"
-#include "dwt.h"
-#include "app.h"
 #include "active_object_led.h"
-#include "memory_pool.h"
-
-#define MAX_LED_TASKS 3
-#define LED_TASK_STACK_SIZE configMINIMAL_STACK_SIZE
-
-/* ============================================================================================ */
-
-typedef struct 
-{
-    LedTask_t tasks[MAX_LED_TASKS];
-} LedTaskPoolMemory_t;
-
-static LedTaskPoolMemory_t led_task_pool_memory;
-static memory_pool_t led_task_pool;
-
-QueueHandle_t led_r_event_queue;
-QueueHandle_t led_g_event_queue;
-QueueHandle_t led_b_event_queue;
 
 /* ============================================================================================ */
 

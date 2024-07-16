@@ -32,12 +32,32 @@
  * @author : Sebastian Bedin <sebabedin@gmail.com>
  */
 
+/* ============================================================================================ */
+
 #ifndef INC_ACTIVE_OBJECT_LED_H
 #define INC_ACTIVE_OBJECT_LED_H
 
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include "main.h"
 #include "cmsis_os.h"
+#include "board.h"
+#include "logger.h"
+#include "dwt.h"
+#include "app.h"
+#include "memory_pool.h"
 
+#define MAX_LED_TASKS 3
+#define LED_TASK_STACK_SIZE configMINIMAL_STACK_SIZE
+
+/* ============================================================================================ */
+
+/* This struct defines the pool memory for the LED tasks */
+typedef struct 
+{
+    LedTask_t tasks[MAX_LED_TASKS];
+} LedTaskPoolMemory_t;
 
 /* This enum defines the possible commands for the LED */
 typedef enum
@@ -62,6 +82,15 @@ extern QueueHandle_t led_b_event_queue;
 extern LedTask_t red_task;
 extern LedTask_t green_task;
 extern LedTask_t blue_task;
+
+static LedTaskPoolMemory_t led_task_pool_memory; // Memory for the LED tasks
+static memory_pool_t led_task_pool; // Memory pool for the LED tasks
+
+QueueHandle_t led_r_event_queue; // Red LED events queue
+QueueHandle_t led_g_event_queue; // Green LED events queue
+QueueHandle_t led_b_event_queue; // Blue LED events queue
+
+/* ============================================================================================ */
 
 /**
  * @brief This function initializes the LED task
@@ -123,3 +152,5 @@ void led_green_set_state(led_cmd_t cmd);
 void led_blue_set_state(led_cmd_t cmd);
 
 #endif // ACTIVE_OBJECT_LED_H
+
+/* ============================================================================================ */
